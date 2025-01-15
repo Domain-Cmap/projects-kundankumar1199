@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title"><i class="fas fa-chart-line"></i> Smart Loan Predictor</h1>
+        
+        <form method="POST" id="predictionForm">
+            <div class="form-grid">
+                <div class="form-group tooltip-container">
+                    <label>Age: <i class="fas fa-info-circle tooltip-icon"></i></label>
+                    <input type="number" name="age" value="35" required min="18" max="100">
+                    <span class="tooltip">Enter age between 18-100 years</span>
+                </div>
+                
+                <div class="form-group tooltip-container">
+                    <label>Experience: <i class="fas fa-info-circle tooltip-icon"></i></label>
+                    <input type="number" name="experience" value="10" required min="0">
+                    <span class="tooltip">Years of work experience</span>
+                </div>
+                
+                <div class="form-group tooltip-container">
+                    <label>Annual Income ($): <i class="fas fa-info-circle tooltip-icon"></i></label>
+                    <input type="number" name="income" value="50000" required min="0">
+                    <span class="tooltip">Yearly income before taxes</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Family Members:</label>
+                    <input type="number" name="family" required min="1">
+                </div>
+
+                <div class="form-group">
+                    <label>CC Avg:</label>
+                    <input type="number" step="0.01" name="ccavg" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Education Level:</label>
+                    <select name="education" required>
+                        <option value="1">Undergrad</option>
+                        <option value="2">Graduate</option>
+                        <option value="3">Professional</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Mortgage:</label>
+                    <input type="number" name="mortgage" required min="0">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>Securities Account:</label>
+                    <input type="checkbox" name="securities" value="1">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>CD Account:</label>
+                    <input type="checkbox" name="cd" value="1">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>Online Banking:</label>
+                    <input type="checkbox" name="online" value="1">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>Credit Card:</label>
+                    <input type="checkbox" name="creditcard" value="1">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-calculator"></i>
+                <span class="btn-text">Calculate Prediction</span>
+                <div class="loader"></div>
+            </button>
+        </form>
+
+        {% if error %}
+        <div class="result error">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+
+        {% if prediction is not none %}
+        <div class="result-card {% if prediction == 1 %}success{% else %}warning{% endif %}">
+            <div class="result-icon">
+                <i class="fas {% if prediction == 1 %}fa-check-circle{% else %}fa-times-circle{% endif %}"></i>
+            </div>
+            <div class="result-content">
+                <h3>Prediction Result</h3>
+                <p>Customer is <strong>{% if prediction == 1 %}likely{% else %}unlikely{% endif %}</strong> 
+                   to accept a personal loan</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="particles" id="particles-js"></div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
